@@ -1,0 +1,38 @@
+.recipient-details {
+    font-family: Arial, sans-serif;
+
+  
+ 
+ 
+  
+}
+
+.recipient-details h2, .recipient-details h3 {
+    color: #333;
+}
+
+.recipient-details div, .recipient-details img {
+    margin-bottom: 10px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+table, th, td {
+    border: 1px solid #ddd;
+}
+
+th, td {
+    text-align: left;
+    padding: 8px;
+}
+
+
+
+img {
+    border-radius: 4px;
+    overflow: hidden;
+}

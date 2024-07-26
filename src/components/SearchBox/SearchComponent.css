@@ -1,0 +1,89 @@
+.search-container {
+  padding: 20px;
+  width: 1800px !important;
+}
+
+.search-form, .advanced-search-form , .btn{
+  margin-bottom: 20px;
+}
+
+.search-form button, .advanced-search-form button, .btn {
+  margin-right: 10px;
+  background-color: #1890ff;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.search-form button:hover, .advanced-search-form button:hover, .btn {
+  background-color: #40a9ff;
+}
+
+.results-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.results-table th, .results-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.results-table th {
+  background-color: #f2f2f2;
+}
+
+.results-table input, .results-table select {
+  width: 100%;
+  padding: 8px;
+  box-sizing: border-box;
+  border: 1px solid #d9d9d9;
+  border-radius: 4px;
+  outline: none;
+  transition: all 0.3s;
+}
+
+.results-table input:focus, .results-table select:focus {
+  border-color: #40a9ff;
+  box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+}
+
+.details-button, .btn{
+  background-color: #1890ff;
+  border: none;
+  color: white;
+  padding: 5px 10px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+}
+
+.details-button:hover, .btn {
+  background-color: #40a9ff;
+}
+.btn{
+  padding: 10px;
+}
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 10px;
+}
+
+.advanced-search-form .grid-container > div {
+  display: flex;
+  flex-direction: column;
+}
+.searchBtns{
+  display: flex;
+  justify-content: space-between;
+}

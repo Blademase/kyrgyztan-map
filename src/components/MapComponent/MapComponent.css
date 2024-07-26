@@ -1,0 +1,32 @@
+/* src/components/MapComponent/MapComponent.css */
+.container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+   margin: 0 10%;
+  }
+  
+  .map-wrapper {
+    
+    height: 100%;
+  }
+  
+  .info-wrapper {
+  
+    height: 100%;
+    display: flex;
+ 
+   
+    box-sizing: border-box; /* Учитываем padding при расчете размеров */
+  }
+  
+  .label-tooltip {
+    background-color: transparent;
+    border: none;
+    box-shadow: none;
+    color: black;
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+  }
+  
