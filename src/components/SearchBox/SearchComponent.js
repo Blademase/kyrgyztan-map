@@ -158,7 +158,7 @@ const SearchComponent = () => {
               </select>
             </div>
             <div>
-              <label>Деревня</label>
+              <label>Село</label>
               <select name="village" value={formValues.village} onChange={handleChange}>
                 <option value="">Выберите деревню</option>
                 {renderSelectOptions(referenceData.village)}
@@ -185,33 +185,7 @@ const SearchComponent = () => {
                 {renderSelectOptions(referenceData.relativeType)}
               </select>
             </div>
-            <div>
-              <label>Поиск по именам</label>
-              <input
-                type="text"
-                name="search"
-                value={formValues.search}
-                onChange={handleChange}
-              />
-            </div>
-            <div>
-              <label>Страница</label>
-              <input
-                type="number"
-                name="page"
-                value={formValues.page}
-                onChange={handleChange}
-              />
-            </div>
-            <div>
-              <label>Количество результатов на странице</label>
-              <input
-                type="number"
-                name="page_size"
-                value={formValues.page_size}
-                onChange={handleChange}
-              />
-            </div>
+            
           </div>
           <button type="submit">Поиск</button>
         </form>
