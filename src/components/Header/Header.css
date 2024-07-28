@@ -1,0 +1,15 @@
+.gerb-icon {
+    width: 50px;
+    height: 50px;
+  }
+  .Header{
+    display: flex;
+    align-items: center;
+    margin: 0 10%;
+    gap: 50px;
+    padding: 10px 0;
+  }
+  .Header span{
+    font-family:'Times New Roman', Times, serif;
+    font-size: 22px;
+  }

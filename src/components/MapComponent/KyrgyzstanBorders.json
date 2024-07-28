@@ -11396,7 +11396,7 @@
       "type": "Feature", 
       "properties": {
         "source": "https://simplemaps.com", 
-        "id": "KGB", 
+        "id": 1, 
         "name": "Баткен"
       }, 
       "id": 1
@@ -26202,7 +26202,7 @@
       "type": "Feature", 
       "properties": {
         "source": "https://simplemaps.com", 
-        "id": 1, 
+        "id": 9, 
         "name": "Чуй"
       }, 
       "id": 3
@@ -45222,7 +45222,7 @@
       "type": "Feature", 
       "properties": {
         "source": "https://simplemaps.com", 
-        "id": "KGY", 
+        "id": 4, 
         "name": "Иссык-көль"
       }, 
       "id": 4
@@ -63714,7 +63714,7 @@
       "type": "Feature", 
       "properties": {
         "source": "https://simplemaps.com", 
-        "id": "KGJ", 
+        "id": 3, 
         "name": "Джалал-Абад"
       }, 
       "id": 5
@@ -82398,7 +82398,7 @@
       "type": "Feature", 
       "properties": {
         "source": "https://simplemaps.com", 
-        "id": 2, 
+        "id": 5, 
         "name": "Нарын"
       }, 
       "id": 6
@@ -96838,7 +96838,7 @@
       "type": "Feature", 
       "properties": {
         "source": "https://simplemaps.com", 
-        "id": "KGO", 
+        "id": 7, 
         "name": "Ош"
       }, 
       "id": 7
@@ -106204,8 +106204,8 @@
       "type": "Feature", 
       "properties": {
         "source": "https://simplemaps.com", 
-        "id": "KGT", 
-        "name": "Talas"
+        "id": 8, 
+        "name": "Талас"
       }, 
       "id": 9
     }

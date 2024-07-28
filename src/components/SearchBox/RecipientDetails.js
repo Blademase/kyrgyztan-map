@@ -1,8 +1,23 @@
 import React, { useRef, useEffect, useState } from 'react';
 import './RecipientDetails.css';
-import { MapContainer, TileLayer, Marker } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
+import L from 'leaflet';
 import axios from 'axios';
+
+
+import markerIconPng from 'leaflet/dist/images/marker-icon.png';
+import markerShadowPng from 'leaflet/dist/images/marker-shadow.png';
+
+
+const customIcon = new L.Icon({
+  iconUrl: markerIconPng,
+  shadowUrl: markerShadowPng,
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+  popupAnchor: [1, -34],
+  shadowSize: [41, 41]
+});
 
 const RecipientDetails = ({ recipient }) => {
   const mapRef = useRef();
@@ -10,7 +25,7 @@ const RecipientDetails = ({ recipient }) => {
 
   useEffect(() => {
     if (mapRef.current) {
-      mapRef.current.leafletElement.invalidateSize();
+      mapRef.current.invalidateSize();
     }
     if (recipient && recipient.id) {
       fetchPaymentHistory(recipient.id);
@@ -46,9 +61,10 @@ const RecipientDetails = ({ recipient }) => {
   } = recipient;
 
   const { latitude, longitude, photo } = address;
-  const typeOfrelative =(relative)=>{
-if (relative===1){return "Сын"} else {return "Дочь"}
+  const typeOfrelative = (relative) => {
+    if (relative === 1) { return "Сын"; } else { return "Дочь"; }
   }
+
   return (
     <div className="recipient-details">
       <h2>Детали получателя</h2>
@@ -67,7 +83,11 @@ if (relative===1){return "Сын"} else {return "Дочь"}
           <strong>Карта:</strong>
           <MapContainer center={[latitude, longitude]} zoom={13} style={{ height: '300px', width: '100%' }} whenCreated={mapInstance => { mapRef.current = mapInstance; }}>
             <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-            <Marker position={[latitude, longitude]} />
+            <Marker position={[latitude, longitude]} icon={customIcon}>
+              <Popup>
+                {first_name} {second_name} {third_name}
+              </Popup>
+            </Marker>
           </MapContainer>
         </div>
       )}

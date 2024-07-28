@@ -1,8 +1,15 @@
 .search-container {
-  padding: 20px;
-  width: 1800px !important;
-}
+  display: flex;
+ 
+ flex-direction: column;
+ width: 85%;
 
+}
+.search-containerRlc{
+  display: flex;
+  justify-content: center;
+ 
+}
 .search-form, .advanced-search-form , .btn{
   margin-bottom: 20px;
 }
@@ -21,7 +28,17 @@
 .search-form button:hover, .advanced-search-form button:hover, .btn {
   background-color: #40a9ff;
 }
-
+.pin{
+  position: relative;
+}
+.error-message {
+  position: absolute;
+  bottom: 0px;
+  left: 8px;
+  color: red;
+  font-size: 12px;
+  margin-top: 5px;
+}
 .results-table {
   width: 100%;
   border-collapse: collapse;
@@ -31,15 +48,16 @@
 .results-table th, .results-table td {
   border: 1px solid #ddd;
   padding: 8px;
-  text-align: left;
+  
 }
 
 .results-table th {
+  align-items: start;
   background-color: #f2f2f2;
 }
 
 .results-table input, .results-table select {
-  width: 100%;
+
   padding: 8px;
   box-sizing: border-box;
   border: 1px solid #d9d9d9;
@@ -50,7 +68,7 @@
 
 .results-table input:focus, .results-table select:focus {
   border-color: #40a9ff;
-  box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+
 }
 
 .details-button, .btn{
@@ -72,6 +90,14 @@
 }
 .btn{
   padding: 10px;
+}
+.nowrap{
+  display: flex;
+  text-wrap: nowrap ;
+  padding-top: 30px;
+  background-color: #d9d9d9;
+  height: 65px;
+  border: none;
 }
 .grid-container {
   display: grid;
