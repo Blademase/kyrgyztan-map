@@ -5,13 +5,13 @@
 
 .info-wrapper {
   display: flex;
-  margin: 0 10%;
+  margin: 0 auto;
 }
 
 .map-wrapper {
   overflow: hidden;
   background-color: white;
-  margin: 10px 0px;
+  margin-bottom: 10px;
   width: 100%;
   position: relative;
 }
