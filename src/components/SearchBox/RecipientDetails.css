@@ -1,44 +1,49 @@
 .recipient-details {
     font-family: Arial, sans-serif;
-}
-
-.recipient-details h2, .recipient-details h3 {
+  }
+  
+  .recipient-details h2, .recipient-details h3 {
     color: #333;
-}
-
-.recipient-details div, .recipient-details img {
+  }
+  
+  .recipient-details div, .recipient-details img {
     margin-bottom: 10px;
-}
-
-.recipient-details img {
+  }
+  
+  .recipient-details img {
     border-radius: 4px;
     overflow: hidden;
-}
-
-
-table {
+  }
+  
+  .columns {
+    display: flex;
+    gap: 30px;
+  }
+  
+  table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-table, th, td {
+  }
+  
+  table, th, td {
     border: 1px solid #ddd;
-}
-
-th {
+  }
+  
+  th {
     background-color: #f4f4f4;
     color: #333;
     font-weight: bold;
     text-align: left;
     padding: 12px 8px;
     vertical-align: middle;
-}
-
-td {
+  }
+  
+  td {
     background-color: #fff;
     text-align: left;
     padding: 12px 8px;
     vertical-align: middle;
-}
+  }
+  

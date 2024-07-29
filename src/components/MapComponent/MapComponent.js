@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import { MapContainer, TileLayer, GeoJSON, useMap, Popup } from 'react-leaflet';
+import React, { useState, useEffect, useRef } from 'react';
+import { MapContainer, TileLayer, GeoJSON, useMap } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 import axios from 'axios';
 import kyrgyzstanRegions from './KyrgyzstanBorders.json';
-import SearchBox from '../SearchBox/SearchComponent'; 
-import './MapComponent.css'; 
+import SearchBox from '../SearchBox/SearchComponent';
+import './MapComponent.css';
 
 const KyrgyzstanMask = () => {
   const map = useMap();
@@ -14,14 +14,7 @@ const KyrgyzstanMask = () => {
     const kyrgyzstanLayer = L.geoJSON(kyrgyzstanRegions);
     const bounds = kyrgyzstanLayer.getBounds();
 
-    map.fitBounds(bounds);
-
-    map.createPane('maskPane').style.zIndex = '700';
-
-    map.setMaxZoom(14);
-
-
-
+    // Disable unnecessary map interactions
     map.dragging.disable();
     map.scrollWheelZoom.disable();
     map.doubleClickZoom.disable();
@@ -38,6 +31,7 @@ const MapComponent = () => {
   const [hoveredRegion, setHoveredRegion] = useState(null);
   const [fullRegionData, setFullRegionData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const mapRef = useRef();
 
   useEffect(() => {
     const fetchAllRegionInfo = async () => {
@@ -49,14 +43,25 @@ const MapComponent = () => {
       } catch (error) {
         console.error('Error:', error);
         setFullRegionData([]);
-        setLoading(false); 
+        setLoading(false);
       }
     };
     fetchAllRegionInfo();
   }, []);
 
-  const position = [41.4044, 74.7661];
-  const filteredRegions = kyrgyzstanRegions; 
+  useEffect(() => {
+    if (mapRef.current) {
+      const map = mapRef.current;
+      const kyrgyzstanLayer = L.geoJSON(kyrgyzstanRegions);
+      const bounds = kyrgyzstanLayer.getBounds();
+      map.fitBounds(bounds);
+      // Set fractional zoom level correctly
+      map.setView([41.2044, 74.7661]);
+    }
+  }, [mapRef]);
+
+  const position = [41.2044, 74.7661];
+  const filteredRegions = kyrgyzstanRegions;
 
   const handleSearch = () => {
     const foundRegion = filteredRegions.features.find(
@@ -81,7 +86,8 @@ const MapComponent = () => {
         const targetLayer = e.target;
         targetLayer.setStyle({
           weight: 3,
-          fillOpacity: 1
+          fillOpacity: 1,
+          color: "white" // Change the color on hover
         });
         const regionDetails = fullRegionData.find(data => data.region === feature.properties.id);
         setHoveredRegion({
@@ -94,7 +100,8 @@ const MapComponent = () => {
         const targetLayer = e.target;
         targetLayer.setStyle({
           weight: 1,
-          fillOpacity: 1
+          fillOpacity: 1,
+          color: "white" // Revert to original color on mouseout
         });
         setHoveredRegion(null);
       }
@@ -105,14 +112,17 @@ const MapComponent = () => {
     <div className="container">
       <div className="map-wrapper">
         {loading ? (
-          <div className="loader">Loading...</div>
+          <div className="loader-container">
+            <div className="loader"></div>
+          </div>
         ) : (
           <MapContainer
             center={position}
-            zoom={18}
-            style={{ height: "100vh", width: "100%" }}
+            zoom={7}
+            style={{ height: "60vh", width: "100%" }}
             zoomControl={false}
             attributionControl={false}
+            whenCreated={mapInstance => { mapRef.current = mapInstance }}
           >
             <TileLayer
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -129,29 +139,22 @@ const MapComponent = () => {
               onEachFeature={onEachFeature}
             />
             <KyrgyzstanMask />
-            {hoveredRegion && hoveredRegion.latlng && (
-              <Popup
-                position={hoveredRegion.latlng}
-                closeButton={false}
-                className="custom-popup"
-              >
-                <div>
-                  <h3>{hoveredRegion.name}</h3>
-              
-                  {hoveredRegion.details && (
-                    <>
-                      <p>Количество получателей: {hoveredRegion.details.recipient_count}</p>
-                      <p>Количество родственников получателей: {hoveredRegion.details.relative_count}</p>
-                      <p>Мужчины получатели: {hoveredRegion.details.recipient_male_count}</p>
-                      <p>Женщины получатели:{hoveredRegion.details.recipient_female_count}</p>
-                      <p>Positions Count: {hoveredRegion.details.relative_position_count}</p>
-                      <p>Общая сумма: {hoveredRegion.details.payment_sum}</p>
-                    </>
-                  )}
-                </div>
-              </Popup>
-            )}
           </MapContainer>
+        )}
+        {hoveredRegion && hoveredRegion.latlng && (
+          <div className="custom-popup">
+            <h3>{hoveredRegion.name}</h3>
+            {hoveredRegion.details && (
+              <>
+                <p>Количество получателей: {hoveredRegion.details.recipient_count}</p>
+                <p>Мужчины получатели: {hoveredRegion.details.recipient_male_count}</p>
+                <p>Женщины получатели: {hoveredRegion.details.recipient_female_count}</p>
+                <p>Дети до 16-лет: {hoveredRegion.details.relative_position_count}</p>
+                <p>Количество всего человек: {hoveredRegion.details.relative_count}</p>
+                <p>Общая сумма: {hoveredRegion.details.payment_sum}</p>
+              </>
+            )}
+          </div>
         )}
       </div>
       <div className="info-wrapper">

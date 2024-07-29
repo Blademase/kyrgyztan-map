@@ -5,10 +5,8 @@ import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 import axios from 'axios';
 
-
 import markerIconPng from 'leaflet/dist/images/marker-icon.png';
 import markerShadowPng from 'leaflet/dist/images/marker-shadow.png';
-
 
 const customIcon = new L.Icon({
   iconUrl: markerIconPng,
@@ -22,6 +20,12 @@ const customIcon = new L.Icon({
 const RecipientDetails = ({ recipient }) => {
   const mapRef = useRef();
   const [paymentHistory, setPaymentHistory] = useState([]);
+  const [referenceData, setReferenceData] = useState({
+    regions: [],
+    cities: [],
+    townships: [],
+    villages: []
+  });
 
   useEffect(() => {
     if (mapRef.current) {
@@ -30,6 +34,7 @@ const RecipientDetails = ({ recipient }) => {
     if (recipient && recipient.id) {
       fetchPaymentHistory(recipient.id);
     }
+    fetchReferenceData();
   }, [recipient]);
 
   const fetchPaymentHistory = async (id) => {
@@ -40,6 +45,52 @@ const RecipientDetails = ({ recipient }) => {
       console.error('Error fetching payment history:', error);
       setPaymentHistory([]);
     }
+  };
+
+  const fetchReferenceData = async () => {
+    try {
+      const [regionsResponse, citiesResponse, townshipsResponse, villagesResponse] = await Promise.all([
+        axios.get('https://inter-map.onrender.com/api/reference/ref_region/'),
+        axios.get('https://inter-map.onrender.com/api/reference/ref_city/'),
+        axios.get('https://inter-map.onrender.com/api/reference/ref_township/'),
+        axios.get('https://inter-map.onrender.com/api/reference/ref_village/')
+      ]);
+      
+      setReferenceData({
+        regions: regionsResponse.data.results,
+        cities: citiesResponse.data.results,
+        townships: townshipsResponse.data.results,
+        villages: villagesResponse.data.results
+      });
+    } catch (error) {
+      console.error('Error fetching reference data:', error);
+      setReferenceData({
+        regions: [],
+        cities: [],
+        townships: [],
+        villages: []
+      });
+    }
+  };
+
+  const getRegionNameById = (id) => {
+    const region = referenceData.regions.find(region => region.id === id);
+    return region ? region.name_ru : 'N/A';
+  };
+
+  const getCityNameById = (id) => {
+    const city = referenceData.cities.find(city => city.id === id);
+    return city ? city.name_ru : 'N/A';
+  };
+
+  const getTownshipNameById = (id) => {
+    const township = referenceData.townships.find(township => township.id === id);
+    return township ? township.name_ru : 'N/A';
+  };
+
+  const getVillageNameById = (id) => {
+    const village = referenceData.villages.find(village => village.id === id);
+    return village ? village.name_ru : 'N/A';
   };
 
   if (!recipient) {
@@ -59,8 +110,8 @@ const RecipientDetails = ({ recipient }) => {
     date_of_birth,
     relative = []
   } = recipient;
-
   const { latitude, longitude, photo } = address;
+  
   const typeOfrelative = (relative) => {
     if (relative === 1) { return "Сын"; } else { return "Дочь"; }
   }
@@ -68,15 +119,79 @@ const RecipientDetails = ({ recipient }) => {
   return (
     <div className="recipient-details">
       <h2>Детали получателя</h2>
-      <div><strong>ФИО:</strong> {first_name} {second_name} {third_name}</div>
-      <div><strong>ПИН:</strong> {pin}</div>
-      <div><strong>Область:</strong> {address.region || 'N/A'}</div>
-      <div><strong>Город:</strong> {address.city || 'N/A'}</div>
-      <div><strong>Сумма платежа:</strong> {payment_sum}</div>
-      <div><strong>Статус платежа:</strong> {payment_status ? payment_status.name_ru : 'N/A'}</div>
-      <div><strong>Национальность:</strong> {nationality ? nationality.name_ru : 'N/A'}</div>
-      <div><strong>Пол:</strong> {gender ? gender.name_ru : 'N/A'}</div>
-      <div><strong>Дата рождения:</strong> {date_of_birth}</div>
+      <table>
+        <tbody>
+          <tr>
+            <td><strong>ФИО:</strong></td>
+            <td>{first_name} {second_name} {third_name}</td>
+          </tr>
+          <tr>
+            <td><strong>ПИН:</strong></td>
+            <td>{pin}</td>
+          </tr>
+          <tr>
+            <td><strong>Область:</strong></td>
+            <td>{getRegionNameById(address.region) || 'N/A'}</td>
+          </tr>
+          <tr>
+            <td><strong>Город:</strong></td>
+            <td>{getCityNameById(address.city) || 'N/A'}</td>
+          </tr>
+          <tr>
+            <td><strong>Поселок:</strong></td>
+            <td>{getTownshipNameById(address.township) || 'N/A'}</td>
+          </tr>
+          <tr>
+            <td><strong>Село:</strong></td>
+            <td>{getVillageNameById(address.village) || 'N/A'}</td>
+          </tr>
+          <tr>
+            <td><strong>Сумма платежа:</strong></td>
+            <td>{payment_sum}</td>
+          </tr>
+          <tr>
+            <td><strong>Статус платежа:</strong></td>
+            <td>{payment_status ? payment_status.name_ru : 'N/A'}</td>
+          </tr>
+          <tr>
+            <td><strong>Национальность:</strong></td>
+            <td>{nationality ? nationality.name_ru : 'N/A'}</td>
+          </tr>
+          <tr>
+            <td><strong>Пол:</strong></td>
+            <td>{gender ? gender.name_ru : 'N/A'}</td>
+          </tr>
+          <tr>
+            <td><strong>Дата рождения:</strong></td>
+            <td>{date_of_birth}</td>
+          </tr>
+        </tbody>
+      </table>
+      <h3>Родственники:</h3>
+      {relative.length > 0 ? (
+        <table>
+          <thead>
+            <tr>
+              <th>ФИО</th>
+              <th>ПИН</th>
+              <th>Дата рождения</th>
+              <th>Родственник</th>
+            </tr>
+          </thead>
+          <tbody>
+            {relative.map((rel) => (
+              <tr key={rel.id}>
+                <td>{rel.first_name} {rel.second_name} {rel.third_name}</td>
+                <td>{rel.pin}</td>
+                <td>{rel.date_of_birth}</td>
+                <td>{typeOfrelative(rel.relative_type) || 'N/A'}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      ) : (
+        <div>Нет родственников</div>
+      )}
       {photo && <div><strong>Фото:</strong><img src={photo} alt="Address Photo" style={{ width: '100%', maxHeight: '300px' }} /></div>}
       {latitude && longitude && (
         <div>
@@ -91,17 +206,8 @@ const RecipientDetails = ({ recipient }) => {
           </MapContainer>
         </div>
       )}
-      <h3>Родственники:</h3>
-      {relative.length > 0 ? (
-        relative.map((rel) => (
-          <div key={rel.id}>
-            <strong>ФИО:</strong> {rel.first_name} {rel.second_name} {rel.third_name}<br />
-            <strong>ПИН:</strong> {rel.pin}<br />
-            <strong>Дата рождения:</strong> {rel.date_of_birth}<br />
-            <strong>Родственник:</strong> {typeOfrelative(rel.relative_type) || 'N/A'}<br /><br />
-          </div>
-        ))
-      ) : (<div>Нет родственников</div>)}
+     
+      
       <h3>История платежей:</h3>
       <table>
         <thead>

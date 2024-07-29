@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Modal from './Modal';
 import RecipientDetails from './RecipientDetails';
+import Select from 'react-select';
 import './SearchComponent.css';
 
 const fetchOptions = async (url) => {
@@ -12,6 +13,31 @@ const fetchOptions = async (url) => {
     console.error(`Ошибка при получении данных с ${url}:`, error);
     return [];
   }
+};
+
+const customStyles = {
+  control: (provided) => ({
+    ...provided,
+    minHeight: '40px',
+    height: '40px',
+    boxShadow: 'none',
+  }),
+  valueContainer: (provided) => ({
+    ...provided,
+    height: '40px',
+    padding: '0 6px'
+  }),
+  input: (provided) => ({
+    ...provided,
+    margin: '0px',
+  }),
+  indicatorSeparator: () => ({
+    display: 'none',
+  }),
+  indicatorsContainer: (provided) => ({
+    ...provided,
+    height: '40px',
+  }),
 };
 
 const SearchComponent = () => {
@@ -83,6 +109,10 @@ const SearchComponent = () => {
     }
   };
 
+  const handleSelectChange = (selectedOption, { name }) => {
+    setFormValues({ ...formValues, [name]: selectedOption ? selectedOption.value : '' });
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (pinError) {
@@ -112,9 +142,10 @@ const SearchComponent = () => {
   };
 
   const renderSelectOptions = (options) => {
-    return options.map(option => (
-      <option key={option.id} value={option.id}>{option.name_ru}</option>
-    ));
+    return options.map(option => ({
+      value: option.id,
+      label: option.name_ru
+    }));
   };
 
   const getRegionNameById = (id) => {
@@ -126,94 +157,122 @@ const SearchComponent = () => {
     <div className="search-containerRlc">
       <div className="search-container">
         <div className='searchBtns'>
-          <form onSubmit={handleSubmit} className="search-form">
-            <button type="submit">Поиск</button>
-          </form>
+        
           <button className="btn" onClick={() => setShowAdvancedSearch(!showAdvancedSearch)}>
             {showAdvancedSearch ? 'Скрыть расширенный поиск' : 'Показать расширенный поиск'}
           </button>
+          <form onSubmit={handleSubmit} className="search-form">
+            <button type="submit" className='searchBtn'>Поиск</button>
+          </form>
         </div>
-        {showAdvancedSearch && (
-          <form onSubmit={handleSubmit} className="advanced-search-form">
+        <div className={`advanced-search-form ${showAdvancedSearch ? 'show' : ''}`}>
+          <form onSubmit={handleSubmit}>
             <div className="grid-container">
               <div>
                 <label>Национальность</label>
-                <select name="nationality" value={formValues.nationality} onChange={handleChange}>
-                  <option value="">Выберите национальность</option>
-                  {renderSelectOptions(referenceData.nationality)}
-                </select>
+                <Select
+                  name="nationality"
+                  options={renderSelectOptions(referenceData.nationality)}
+                  placeholder="Выбрать"
+                  onChange={handleSelectChange}
+                  styles={customStyles}
+                />
               </div>
               <div>
                 <label>Пол</label>
-                <select name="gender" value={formValues.gender} onChange={handleChange}>
-                  <option value="">Выберите пол</option>
-                  {renderSelectOptions(referenceData.gender)}
-                </select>
+                <Select
+                  name="gender"
+                  options={renderSelectOptions(referenceData.gender)}
+                  placeholder="Выбрать"
+                  onChange={handleSelectChange}
+                  styles={customStyles}
+                />
               </div>
               <div>
                 <label>Область</label>
-                <select name="region" value={formValues.region} onChange={handleChange}>
-                  <option value="">Выберите область</option>
-                  {renderSelectOptions(referenceData.region)}
-                </select>
+                <Select
+                  name="region"
+                  options={renderSelectOptions(referenceData.region)}
+                  placeholder="Выбрать"
+                  onChange={handleSelectChange}
+                  styles={customStyles}
+                />
               </div>
               <div>
                 <label>Город</label>
-                <select name="city" value={formValues.city} onChange={handleChange}>
-                  <option value="">Выберите город</option>
-                  {renderSelectOptions(referenceData.city)}
-                </select>
+                <Select
+                  name="city"
+                  options={renderSelectOptions(referenceData.city)}
+                  placeholder="Выбрать"
+                  onChange={handleSelectChange}
+                  styles={customStyles}
+                />
               </div>
               <div>
                 <label>Поселок</label>
-                <select name="township" value={formValues.township} onChange={handleChange}>
-                  <option value="">Выберите поселок</option>
-                  {renderSelectOptions(referenceData.township)}
-                </select>
+                <Select
+                  name="township"
+                  options={renderSelectOptions(referenceData.township)}
+                  placeholder="Выбрать"
+                  onChange={handleSelectChange}
+                  styles={customStyles}
+                />
               </div>
               <div>
                 <label>Село</label>
-                <select name="village" value={formValues.village} onChange={handleChange}>
-                  <option value="">Выберите деревню</option>
-                  {renderSelectOptions(referenceData.village)}
-                </select>
+                <Select
+                  name="village"
+                  options={renderSelectOptions(referenceData.village)}
+                  placeholder="Выбрать"
+                  onChange={handleSelectChange}
+                  styles={customStyles}
+                />
               </div>
               <div>
                 <label>Территориальный объект</label>
-                <select name="territorial_object" value={formValues.territorial_object} onChange={handleChange}>
-                  <option value="">Выберите территориальный объект</option>
-                  {renderSelectOptions(referenceData.territorialObject)}
-                </select>
+                <Select
+                  name="territorial_object"
+                  options={renderSelectOptions(referenceData.territorialObject)}
+                  placeholder="Выбрать"
+                  onChange={handleSelectChange}
+                  styles={customStyles}
+                />
               </div>
               <div>
                 <label>Территориальная единица</label>
-                <select name="territorial_unit" value={formValues.territorial_unit} onChange={handleChange}>
-                  <option value="">Выберите территориальную единицу</option>
-                  {renderSelectOptions(referenceData.territorialUnit)}
-                </select>
+                <Select
+                  name="territorial_unit"
+                  options={renderSelectOptions(referenceData.territorialUnit)}
+                  placeholder="Выбрать"
+                  onChange={handleSelectChange}
+                  styles={customStyles}
+                />
               </div>
               <div>
                 <label>Родственник</label>
-                <select name="relative" value={formValues.relative} onChange={handleChange}>
-                  <option value="">Выберите родственника</option>
-                  {renderSelectOptions(referenceData.relativeType)}
-                </select>
+                <Select
+                  name="relative"
+                  options={renderSelectOptions(referenceData.relativeType)}
+                  placeholder="Выбрать"
+                  onChange={handleSelectChange}
+                  styles={customStyles}
+                />
               </div>
             </div>
           </form>
-        )}
+        </div>
         <table className="results-table">
           <thead>
             <tr>
               <th>№</th>
-              <th>ФИО
+              <th className='topTh'>ФИО
                 <input
                   type="text"
                   placeholder="Поиск по ФИО"
                   onChange={(e) => handleSearchChange(e, 'search')}
                 />
               </th>
-              <th className='pin'>ПИН
+              <th className='topTh'>ПИН
                 <input
                   type="text"
                   placeholder="Поиск по ПИН"
@@ -222,19 +281,27 @@ const SearchComponent = () => {
                 {pinError && <small className="error-message">{pinError}</small>}
               </th>
               <th>Область
-                <select onChange={(e) => handleSearchChange(e, 'region')}>
-                  <option value="">Выберите область</option>
-                  {renderSelectOptions(referenceData.region)}
-                </select>
+                <Select
+                  name="region"
+                  options={renderSelectOptions(referenceData.region)}
+                  placeholder="Выбрать область"
+                  onChange={handleSelectChange}
+                  styles={customStyles}
+                  classNamePrefix="react-select"
+                />
               </th>
               <th className='nowrap'>Сумма платежа</th>
               <th>Статус платежа
-                <select onChange={(e) => handleSearchChange(e, 'payment_status')}>
-                  <option value="">Выберите статус платежа</option>
-                  {renderSelectOptions(referenceData.paymentStatus)}
-                </select>
+                <Select
+                  name="payment_status"
+                  options={renderSelectOptions(referenceData.paymentStatus)}
+                  placeholder="Выбрать статус платежа"
+                  onChange={handleSelectChange}
+                  styles={customStyles}
+                  classNamePrefix="react-select"
+                />
               </th>
-              <th  className='nowrap'>Подробнее</th>
+              <th className='nowrap'>Подробнее</th>
             </tr>
           </thead>
           <tbody>
