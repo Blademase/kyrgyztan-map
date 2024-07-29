@@ -20,7 +20,12 @@
     display: flex;
     gap: 30px;
   }
-  
+  .photoDiv{
+    display: flex;
+    align-items: center;
+    padding: 10px 0px;
+    gap: 10px;
+  }
   table {
     width: 100%;
     border-collapse: collapse;

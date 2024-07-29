@@ -7,7 +7,7 @@ import axios from 'axios';
 
 import markerIconPng from 'leaflet/dist/images/marker-icon.png';
 import markerShadowPng from 'leaflet/dist/images/marker-shadow.png';
-
+import imageStatic from "../../assets/images/491e6ac2b8c368d99910b527aa775a48.jpg"
 const customIcon = new L.Icon({
   iconUrl: markerIconPng,
   shadowUrl: markerShadowPng,
@@ -192,9 +192,11 @@ const RecipientDetails = ({ recipient }) => {
       ) : (
         <div>Нет родственников</div>
       )}
-      {photo && <div><strong>Фото:</strong><img src={photo} alt="Address Photo" style={{ width: '100%', maxHeight: '300px' }} /></div>}
+      {photo && <div className='photoDiv'><strong>Фото:</strong><img src={imageStatic} alt="Address Photo" style={{ width: '450px', maxHeight: '300px' }} /></div>}
+      
       {latitude && longitude && (
-        <div>
+      
+      <div>
           <strong>Карта:</strong>
           <MapContainer center={[latitude, longitude]} zoom={13} style={{ height: '300px', width: '100%' }} whenCreated={mapInstance => { mapRef.current = mapInstance; }}>
             <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
