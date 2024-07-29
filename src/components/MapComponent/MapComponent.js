@@ -119,7 +119,7 @@ const MapComponent = () => {
           <MapContainer
             center={position}
             zoom={7}
-            style={{ height: "60vh", width: "100%" }}
+            style={{ height: "65vh", width: "100%" }}
             zoomControl={false}
             attributionControl={false}
             whenCreated={mapInstance => { mapRef.current = mapInstance }}
