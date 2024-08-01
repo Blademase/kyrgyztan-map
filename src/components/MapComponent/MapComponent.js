@@ -7,6 +7,8 @@ import kyrgyzstanRegions from './KyrgyzstanBorders.json';
 import SearchBox from '../SearchBox/SearchComponent';
 import './MapComponent.css';
 
+const API_URL = process.env.REACT_APP_API_URL;
+
 const KyrgyzstanMask = () => {
   const map = useMap();
 
@@ -14,7 +16,6 @@ const KyrgyzstanMask = () => {
     const kyrgyzstanLayer = L.geoJSON(kyrgyzstanRegions);
     const bounds = kyrgyzstanLayer.getBounds();
 
-    // Disable unnecessary map interactions
     map.dragging.disable();
     map.scrollWheelZoom.disable();
     map.doubleClickZoom.disable();
@@ -36,7 +37,7 @@ const MapComponent = () => {
   useEffect(() => {
     const fetchAllRegionInfo = async () => {
       try {
-        const response = await axios.get('https://inter-map.onrender.com/api/recipient/get_data_from_regions/');
+        const response = await axios.get(`${API_URL}/recipient/get_data_from_regions/`);
         console.log(response.data);
         setFullRegionData(response.data);
         setLoading(false);
@@ -55,7 +56,7 @@ const MapComponent = () => {
       const kyrgyzstanLayer = L.geoJSON(kyrgyzstanRegions);
       const bounds = kyrgyzstanLayer.getBounds();
       map.fitBounds(bounds);
-      // Set fractional zoom level correctly
+   
       map.setView([41.2044, 74.7661]);
     }
   }, [mapRef]);
@@ -87,7 +88,7 @@ const MapComponent = () => {
         targetLayer.setStyle({
           weight: 3,
           fillOpacity: 1,
-          color: "white" // Change the color on hover
+          color: "white" 
         });
         const regionDetails = fullRegionData.find(data => data.region === feature.properties.id);
         setHoveredRegion({
@@ -101,7 +102,7 @@ const MapComponent = () => {
         targetLayer.setStyle({
           weight: 1,
           fillOpacity: 1,
-          color: "white" // Revert to original color on mouseout
+          color: "white" 
         });
         setHoveredRegion(null);
       }
@@ -119,7 +120,7 @@ const MapComponent = () => {
           <MapContainer
             center={position}
             zoom={7}
-            style={{ height: "65vh", width: "100%" }}
+            className='Map'
             zoomControl={false}
             attributionControl={false}
             whenCreated={mapInstance => { mapRef.current = mapInstance }}

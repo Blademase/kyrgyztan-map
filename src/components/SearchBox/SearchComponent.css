@@ -1,126 +1,86 @@
-.search-container {
-  display: flex;
-  flex-direction: column;
+.search-containerRlc {
+  padding: 20px;
+}
+
+.searchBtns {
+  margin-bottom: 10px;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 10px;
+  animation: 1s show ease;
+}
+
+@keyframes show {
+  0% { opacity: 0; }
+  50% {opacity: 0.5;}
+  100% { opacity: 1; }
+}
+
+.search-form {
+  margin-bottom: 20px;
+}
+
+.results-table {
   width: 100%;
+  border-collapse: collapse;
 }
-
-.search-containerRlc{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.search-form button, .advanced-search-form button, .btn {
-  margin-right: 10px;
-  background-color: #1890ff;
-  color: white;
-  border: none;
-  padding: 8px 16px;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-.search-form button:hover, .advanced-search-form button:hover, .btn:hover {
-  background-color: #40a9ff;
-}
-
-.pin{
-  position: relative;
-}
-
-.error-message {
-  position: absolute;
-  bottom: 0px;
-  left: 8px;
-  color: red;
-  font-size: 12px;
-  margin-top: 5px;
-}
-
 
 .results-table th, .results-table td {
   border: 1px solid #ddd;
   padding: 8px;
+
 }
 
 .results-table th {
   background-color: #f2f2f2;
 }
 
-.results-table input {
-  padding: 10px;
-  box-sizing: border-box;
-  border: 1px solid #d9d9d9;
+.specialInput {
+  height: 38px;
+  width: 150px; /* Ensure uniform width */
+  box-sizing: border-box; /* Include padding and border in the element's total width and height */
+}
+
+.details-button {
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+.details-button:hover {
+  background-color: #45a049;
+}
+.btn, .details-button {
+  padding: 8px;
   border-radius: 4px;
   outline: none;
-  transition: all 0.3s;
-}
-.topTh{
-  padding-bottom: 10px !important;
-}
-option {
-  gap: 10px !important;
-}
-
-.results-table input:focus {
-  border-color: #40a9ff;
-}
-
-.details-button, .btn {
-  background-color: #1890ff;
   border: none;
   color: white;
-  padding: 5px 10px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 14px;
-  cursor: pointer;
-  border-radius: 4px;
-  transition: background-color 0.3s;
-}
-.advanced-search-form {
-  display: none; 
-}
-
-.advanced-search-form.show {
-  display: block; 
-
-}
-
-.details-button:hover, .btn:hover {
   background-color: #40a9ff;
+  cursor: pointer;
+}
+.btn:hover, .details-button:hover {
+  background-color: #0890ff;
 }
 
-.nowrap {
-  white-space: nowrap;
+.error-message {
+  color: red;
+  width: 200px;
+  font-size: 11px;
+text-wrap: wrap;
 }
 
-.searchBtn {
-  background-color: #2d5c30 !important;
+.search-form input,
+.search-form select,
+.search-form .Select__control {
+  width: 100%; /* Ensure all form elements are full width within their container */
+  max-width: 200px; /* Set a max-width for inputs */
+  box-sizing: border-box; /* Include padding and border in the element's total width and height */
 }
 
-.grid-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 10px;
-}
-
-.advanced-search-form .grid-container > div {
-  display: flex;
-  flex-direction: column;
-}
-
-.searchBtns {
-  display: flex;
-  justify-content: end;
-}
-
-.react-select__control {
-  min-width: 200px;
-}
-
-.react-select__placeholder {
-  color: #999;
+.search-container form .grid-container > div {
+  margin-bottom: 15px; /* Add some margin between the grid items */
 }

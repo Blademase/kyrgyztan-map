@@ -16,7 +16,7 @@
 }
 
 .Header span {
-  font-family: 'Times New Roman', Times, serif;
+  font-family:  'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
   font-size: 18px;
   color: #333; /* Darker text color for better readability */
   line-height: 1.5; /* Better line spacing */

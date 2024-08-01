@@ -7,7 +7,8 @@ import axios from 'axios';
 
 import markerIconPng from 'leaflet/dist/images/marker-icon.png';
 import markerShadowPng from 'leaflet/dist/images/marker-shadow.png';
-import imageStatic from "../../assets/images/491e6ac2b8c368d99910b527aa775a48.jpg"
+import imageStatic from "../../assets/images/491e6ac2b8c368d99910b527aa775a48.jpg";
+
 const customIcon = new L.Icon({
   iconUrl: markerIconPng,
   shadowUrl: markerShadowPng,
@@ -16,6 +17,9 @@ const customIcon = new L.Icon({
   popupAnchor: [1, -34],
   shadowSize: [41, 41]
 });
+
+// Используем переменную окружения для базового URL
+const API_URL = process.env.REACT_APP_API_URL;
 
 const RecipientDetails = ({ recipient }) => {
   const mapRef = useRef();
@@ -39,7 +43,7 @@ const RecipientDetails = ({ recipient }) => {
 
   const fetchPaymentHistory = async (id) => {
     try {
-      const response = await axios.get(`https://inter-map.onrender.com/api/recipient/get_recipient_payment_history/${id}`);
+      const response = await axios.get(`${API_URL}/recipient/get_recipient_payment_history/${id}`);
       setPaymentHistory(response.data);
     } catch (error) {
       console.error('Error fetching payment history:', error);
@@ -50,10 +54,10 @@ const RecipientDetails = ({ recipient }) => {
   const fetchReferenceData = async () => {
     try {
       const [regionsResponse, citiesResponse, townshipsResponse, villagesResponse] = await Promise.all([
-        axios.get('https://inter-map.onrender.com/api/reference/ref_region/'),
-        axios.get('https://inter-map.onrender.com/api/reference/ref_city/'),
-        axios.get('https://inter-map.onrender.com/api/reference/ref_township/'),
-        axios.get('https://inter-map.onrender.com/api/reference/ref_village/')
+        axios.get(`${API_URL}/reference/ref_region/`),
+        axios.get(`${API_URL}/reference/ref_city/`),
+        axios.get(`${API_URL}/reference/ref_township/`),
+        axios.get(`${API_URL}/reference/ref_village/`)
       ]);
       
       setReferenceData({
@@ -195,8 +199,7 @@ const RecipientDetails = ({ recipient }) => {
       {photo && <div className='photoDiv'><strong>Фото:</strong><img src={imageStatic} alt="Address Photo" style={{ width: '450px', maxHeight: '300px' }} /></div>}
       
       {latitude && longitude && (
-      
-      <div>
+        <div>
           <strong>Карта:</strong>
           <MapContainer center={[latitude, longitude]} zoom={13} style={{ height: '300px', width: '100%' }} whenCreated={mapInstance => { mapRef.current = mapInstance; }}>
             <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
@@ -208,7 +211,6 @@ const RecipientDetails = ({ recipient }) => {
           </MapContainer>
         </div>
       )}
-     
       
       <h3>История платежей:</h3>
       <table>

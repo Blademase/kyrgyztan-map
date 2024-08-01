@@ -1,16 +1,18 @@
-.FooterContent{
-    width: 79%;
-    justify-content: space-between;
-    display: flex;
-    padding-top: 10px;
-}
-.Footer{
+.Footer {
     display: flex;
     justify-content: center;
     background-color: rgb(249, 249, 249);
-    margin-top: 25px;
-    padding-bottom: 10px;
-}
-.Footer span{
+    padding: 10px 0;
+  
+  }
+  
+  .FooterContent {
+    width: 79%;
+    display: flex;
+    justify-content: space-between;
+    margin-top: auto; 
+  }
+  
+  .Footer span {
     font-weight: 600;
-}
+  }

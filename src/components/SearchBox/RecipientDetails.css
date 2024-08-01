@@ -1,6 +1,6 @@
 .recipient-details {
     font-family: Arial, sans-serif;
-   
+ /* z-index: 3; */
   }
   
   .recipient-details h2, .recipient-details h3 {
@@ -16,6 +16,9 @@
     overflow: hidden;
   }
   
+.details-button:hover, .btn:hover {
+  background-color: #40a9ff;
+}
   .columns {
     display: flex;
     gap: 30px;
