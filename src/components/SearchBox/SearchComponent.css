@@ -82,7 +82,7 @@
   cursor: pointer;
 }
 .error-message {
-  color: yellow;
+  color: red;
   width: 200px;
   font-size: 11px;
 text-wrap: wrap;
