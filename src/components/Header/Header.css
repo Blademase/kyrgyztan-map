@@ -20,6 +20,7 @@
   font-size: 18px;
   color: #333; /* Darker text color for better readability */
   line-height: 1.5; /* Better line spacing */
+  font-weight: 500;
 }
 .headerLogo{
   display: flex;

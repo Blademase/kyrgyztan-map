@@ -8,7 +8,7 @@ function Header() {
     <div className="Header">
      <div className='headerLogo'>
       <Gerb className="gerb-icon" />
-      <span>Кыргыз Республикасынын,<br/>Эмгек, социалдык камсыздоо жана миграция министрлиги</span>
+      <span>Министерство труда, социального обеспечения и миграции<br/> Кыргызской Республики</span>
       </div>
       <div className='selectSocialBtns'>
         <a href='#'>Уй-булоого комок</a>
