@@ -58,9 +58,14 @@
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
-@media screen and (max-height: 800px) {
- .Map{
-  height: 70vh;
- }
+@media (max-width: 992px) {
+  .custom-popup p,h3{
+    margin: 0;
+    padding: 3px;
+  }
+  .custom-popup{
+
+    margin-right: 10px;
+  }  
 }
 

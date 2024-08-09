@@ -13,9 +13,6 @@ const KyrgyzstanMask = () => {
   const map = useMap();
 
   useEffect(() => {
-    const kyrgyzstanLayer = L.geoJSON(kyrgyzstanRegions);
-    const bounds = kyrgyzstanLayer.getBounds();
-
     map.dragging.disable();
     map.scrollWheelZoom.disable();
     map.doubleClickZoom.disable();
@@ -38,7 +35,6 @@ const MapComponent = () => {
     const fetchAllRegionInfo = async () => {
       try {
         const response = await axios.get(`${API_URL}/recipient/get_data_from_regions/`);
-        console.log(response.data);
         setFullRegionData(response.data);
         setLoading(false);
       } catch (error) {
@@ -50,16 +46,39 @@ const MapComponent = () => {
     fetchAllRegionInfo();
   }, []);
 
+  const calculateZoomLevel = () => {
+    const screenWidth = window.innerWidth;
+
+    if (screenWidth < 1030) {
+      return 6;
+    } else {
+      return 7;
+    }
+  };
+
   useEffect(() => {
     if (mapRef.current) {
       const map = mapRef.current;
-      const kyrgyzstanLayer = L.geoJSON(kyrgyzstanRegions);
-      const bounds = kyrgyzstanLayer.getBounds();
-      map.fitBounds(bounds);
-   
-      map.setView([41.2044, 74.7661]);
+      const zoomLevel = calculateZoomLevel();
+      map.setZoom(zoomLevel);
     }
   }, [mapRef]);
+
+  useEffect(() => {
+    const adjustZoomLevel = () => {
+      if (mapRef.current) {
+        const map = mapRef.current;
+        const zoomLevel = calculateZoomLevel();
+        map.setZoom(zoomLevel);
+      }
+    };
+
+    window.addEventListener('resize', adjustZoomLevel);
+
+    return () => {
+      window.removeEventListener('resize', adjustZoomLevel);
+    };
+  }, []);
 
   const position = [41.2044, 74.7661];
   const filteredRegions = kyrgyzstanRegions;
@@ -119,7 +138,7 @@ const MapComponent = () => {
         ) : (
           <MapContainer
             center={position}
-            zoom={7}
+            zoom={calculateZoomLevel()}
             className='Map'
             zoomControl={false}
             attributionControl={false}
